@@ -10,6 +10,11 @@
 !.yarn/releases
 !.yarn/versions
 
+# agent skills (downloaded tooling, not app code)
+# The installed skill bodies are third-party content; skills-lock.json pins
+# them and is tracked, so an install is reproducible without vendoring 432K.
+/.agents/
+
 # testing
 /coverage
 
