@@ -38,12 +38,6 @@
   /* SVG icon fills only — never text or backgrounds. */
   --color-pure-black: #000000;
 
-  /* Typeface — "T1 Sans" is proprietary and not installable; Inter is the
-     substitute DESIGN.md sanctions. --font-inter is injected by next/font. */
-  --font-t1-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-sans: var(--font-t1-sans);
-
   /* Type scale — size + line-height + tracking travel together */
   --text-label: 12px;
   --text-label--line-height: 1.3;
@@ -77,6 +71,21 @@
 
   /* Layout */
   --container-page: 1200px;
+}
+
+/*
+ * Font family is declared with `inline` because it references --font-inter,
+ * a runtime CSS variable injected by next/font — the same pattern Next.js uses
+ * in its own Tailwind v4 template. Without `inline` the var() would be resolved
+ * at build time and the font would not apply.
+ *
+ * "T1 Sans" is proprietary and not installable; Inter is the substitute
+ * DESIGN.md explicitly sanctions for its "geometric neutrality".
+ */
+@theme inline {
+  --font-t1-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-t1-sans);
 }
 
 @layer base {
