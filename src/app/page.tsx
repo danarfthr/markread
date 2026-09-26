@@ -1,5 +1,4 @@
 import { MarkdownViewer } from "@/components/markdown-viewer";
-import HalftoneBlobsBackground from "@/components/pixel-perfect/halftone-blobs-background";
 import { SectionLabel } from "@/components/section-label";
 import { SiteNav } from "@/components/site-nav";
 
@@ -9,40 +8,15 @@ export default function Home() {
       <SiteNav />
 
       <main className="flex flex-1 flex-col">
-        {/*
-         * Full-bleed hero. The wrapper is positioned and the background fills it,
-         * rather than positioning the background component's own root: that root
-         * already declares `relative`, and which wins would depend on Tailwind's
-         * CSS output order rather than class order.
-         */}
-        <header className="relative w-full">
-          <div className="pointer-events-none absolute inset-0">
-            {/*
-             * `color` must be a literal rgba(), not var(--color-carbon-warm):
-             * canvas fillStyle cannot resolve CSS custom properties, and an
-             * invalid value is ignored, leaving fillStyle at its default
-             * #000000 — which DESIGN.md forbids for backgrounds.
-             * rgb(50, 45, 42) is carbon-warm.
-             */}
-            <HalftoneBlobsBackground
-              color="rgba(50, 45, 42, 0.18)"
-              paperColor="#f0efe9"
-              spacing={16}
-              blobs={4}
-              speed={0.5}
-            />
-          </div>
-
-          <div className="relative mx-auto w-full max-w-page px-6 pt-24 pb-12">
-            <SectionLabel>Markdown viewer</SectionLabel>
-            <h1 className="mt-6 max-w-3xl text-display text-carbon-warm">
-              Read Markdown the way a specification sheet reads.
-            </h1>
-            <p className="mt-6 max-w-xl text-body text-carbon-warm">
-              A single page that renders Markdown as you paste it. Everything
-              runs in your browser — no upload, no account, no server.
-            </p>
-          </div>
+        <header className="mx-auto w-full max-w-page px-6 pt-24 pb-12">
+          <SectionLabel>Markdown viewer</SectionLabel>
+          <h1 className="mt-6 max-w-3xl text-display text-carbon-warm">
+            Read Markdown the way a specification sheet reads.
+          </h1>
+          <p className="mt-6 max-w-xl text-body text-carbon-warm">
+            A single page that renders Markdown as you paste it. Everything runs
+            in your browser — no upload, no account, no server.
+          </p>
         </header>
 
         <MarkdownViewer />
