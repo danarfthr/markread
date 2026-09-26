@@ -60,7 +60,7 @@ export function MarkdownViewer() {
   return (
     <section
       id="viewer"
-      className="mx-auto flex w-full max-w-page flex-col gap-6 px-6 py-12"
+      className="mx-auto flex w-full max-w-page scroll-mt-32 flex-col gap-6 px-6 py-12"
     >
       <div className="flex flex-wrap items-end justify-between gap-4">
         <SectionLabel>Viewer</SectionLabel>

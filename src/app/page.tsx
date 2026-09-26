@@ -23,7 +23,7 @@ export default function Home() {
 
         <section
           id="format"
-          className="mx-auto w-full max-w-page px-6 pt-12 pb-24"
+          className="mx-auto w-full max-w-page scroll-mt-32 px-6 pt-12 pb-24"
         >
           <SectionLabel>Format</SectionLabel>
           <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
