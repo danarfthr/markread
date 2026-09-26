@@ -62,11 +62,50 @@ export function MarkdownViewer() {
       id="viewer"
       className="mx-auto flex w-full max-w-page scroll-mt-32 flex-col gap-6 px-6 py-12"
     >
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <SectionLabel>Viewer</SectionLabel>
-        <p className="text-label text-mercury">
-          {wordCount.toLocaleString()} words
-        </p>
+      {/*
+       * Actions sit at the top, not below the panes. At the bottom they were
+       * past the whole editor, so loading or clearing a file meant scrolling
+       * away from the content being worked on.
+       */}
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <SectionLabel>Viewer</SectionLabel>
+            <p className="text-label text-mercury">
+              {wordCount.toLocaleString()} words
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="cursor-pointer rounded-pills bg-carbon-warm px-5.5 py-4.5 text-body-sm text-paper-white">
+              Choose file
+              <input
+                type="file"
+                accept=".md,.markdown,.mdx,text/markdown,text/plain"
+                className="sr-only"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void readFile(file);
+                  // Reset so re-picking the same file fires change again.
+                  event.target.value = "";
+                }}
+              />
+            </label>
+            <button
+              type="button"
+              onClick={() => {
+                setSource("");
+                setError(null);
+              }}
+              className="rounded-pills border border-carbon-warm px-5.5 py-4.5 text-body-sm text-carbon-warm"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+
+        {/* Kept next to the buttons that trigger it, not at the bottom. */}
+        {error && <p className="text-body-sm text-mercury">{error}</p>}
       </div>
 
       <div
@@ -122,34 +161,6 @@ export function MarkdownViewer() {
             )}
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-4">
-        <label className="cursor-pointer rounded-pills bg-carbon-warm px-5.5 py-4.5 text-body-sm text-paper-white">
-          Choose file
-          <input
-            type="file"
-            accept=".md,.markdown,.mdx,text/markdown,text/plain"
-            className="sr-only"
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-              if (file) void readFile(file);
-              // Reset so re-picking the same file fires change again.
-              event.target.value = "";
-            }}
-          />
-        </label>
-        <button
-          type="button"
-          onClick={() => {
-            setSource("");
-            setError(null);
-          }}
-          className="rounded-pills border border-carbon-warm px-5.5 py-4.5 text-body-sm text-carbon-warm"
-        >
-          Clear
-        </button>
-        {error && <p className="text-body-sm text-mercury">{error}</p>}
       </div>
     </section>
   );
