@@ -63,6 +63,17 @@ export default function Home() {
           <p className="text-body-sm text-paper-white">
             Rendered locally. Nothing leaves your browser.
           </p>
+          <p className="text-body-sm text-paper-white">
+            Made by{" "}
+            <a
+              href="https://danar.app"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline underline-offset-4"
+            >
+              danar.app
+            </a>
+          </p>
         </div>
       </footer>
     </>
