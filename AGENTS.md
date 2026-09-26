@@ -86,13 +86,41 @@ references `--font-inter`, a runtime variable injected by `next/font`.
 ## Architecture
 
 - `src/app/page.tsx` — Server Component; composes nav, hero, viewer, footer.
+- `src/components/site-nav.tsx` — `'use client'`; sticky nav with an
+  `IntersectionObserver` scroll-spy. Sticky is intentional and in-spec
+  (DESIGN.md allows a sticky nav). Because it is sticky, **every anchor target
+  needs `scroll-mt-32`**, or the nav covers the heading the jump lands on.
+  Nav links carry `min-h-11` (44px) — keep that, it is the touch-target minimum.
 - `src/components/markdown-viewer.tsx` — `'use client'`; owns paste/drop state and
   renders the preview. Must stay a client component (`useState`, drag events).
+- `src/components/pixel-perfect/` — vendored third-party backgrounds (see below).
 - `src/lib/sample-markdown.ts` — the initial document shown on load.
 - Rendered Markdown is styled by the scoped `.markdown-body` layer in `globals.css`.
   `react-markdown` emits bare elements with no class hooks, so styling them via a
   scoped element ruleset is intentional — a `components` map would be far more verbose.
   Add new element styles there rather than inline classes.
+
+### Hero background (vendored)
+
+`src/components/pixel-perfect/halftone-blobs-background.tsx` is vendored from
+[Pixel-Perfect](https://github.com/vansh-nagar/Pixel-Perfect), registry item
+`halftone-blobs-background`, pinned at commit `951c461`. The body is copied verbatim;
+only the attribution header was added. **Upstream publishes no LICENSE file**, so keep
+that header.
+
+- It is a **dependency-free 2D-canvas** component. Do **not** swap in the sibling
+  `contour-map-background`: that one uses WebGL and silently renders nothing when the
+  `OES_standard_derivatives` extension is missing.
+- It is mounted behind the **hero only**, in a positioned wrapper in `page.tsx`. The
+  wrapper is positioned rather than adding `absolute` to the component root, because
+  that root already declares `relative` — which wins would depend on Tailwind's CSS
+  output order, not class order.
+- **`color` must be a literal `rgba()`**, not `var(--color-carbon-warm)`. Canvas
+  `fillStyle` cannot resolve CSS custom properties; an invalid value is *ignored*,
+  silently leaving the default `#000000`, which DESIGN.md forbids for backgrounds.
+  `rgb(50, 45, 42)` is carbon-warm.
+- It already respects `prefers-reduced-motion`, pauses when offscreen, and caps DPR at
+  2. Do not remove those guards.
 
 ### Do not add `rehype-raw`
 
