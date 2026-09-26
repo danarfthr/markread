@@ -106,6 +106,44 @@ references `--font-inter`, a runtime variable injected by `next/font`.
   renders the preview. Must stay a client component (`useState`, drag events).
   Choose file / Clear live in a toolbar **above** the panes, not below them, so the
   actions stay reachable without scrolling past the whole editor.
+
+### The preview is memoized on purpose — do not "simplify" it
+
+`react-markdown` does **not** memoize internally: it calls `createProcessor()`
+inside its own component body, so every render re-parses the whole document
+synchronously. Measured ~108 ms per parse at 100 KB and ~1 s at 1 MB, and the
+file cap is 5 MB.
+
+That made this a real bug, not a micro-optimization: while `<Markdown>` was
+inline in `MarkdownViewer`, *any* state change re-parsed the document —
+including toggling the drag overlay, which has nothing to do with the text.
+Measured on a 100 KB document, six drag enter/leave pairs blocked the main
+thread 12 times for 3.6 s total, and a single keystroke on 200 KB took ~1100 ms
+to paint.
+
+Three parts, all load-bearing:
+
+1. `MarkdownPreview` is a module-level `memo()` component. Do not inline it back
+   into `MarkdownViewer`.
+2. `REMARK_PLUGINS` is at module scope. An inline `[remarkGfm]` is a new array
+   each render, and `memo()` compares shallowly — a fresh reference silently
+   defeats the memoization entirely.
+3. `useDeferredValue(source)` feeds the preview, and `wordCount` derives from
+   the deferred value too, so the count can never disagree with the preview
+   beside it. Both the memo **and** the deferred value are needed: the deferred
+   value alone still re-parses on every render, and the memo alone still blocks
+   the keystroke.
+
+After the fix: keystroke echo on 200 KB went 1100 ms → 22 ms, and drag toggling
+produced zero long tasks. Verified by A/B against the pre-fix build with the
+Long Tasks API; not covered by any test suite, so **re-measure if you touch it**.
+
+`useDeferredValue` makes the parse non-blocking, not free — a large document
+still blocks the thread for the duration of the deferred parse. Fixing that
+properly needs a Web Worker, which `react-markdown` cannot support as-is
+because it is coupled to React. React Compiler is **not** installed, so this
+manual memoization is required; if you ever enable it, re-measure rather than
+deleting these on the assumption the compiler covers it.
 - `src/lib/sample-markdown.ts` — the initial document shown on load.
 - Rendered Markdown is styled by the scoped `.markdown-body` layer in `globals.css`.
   `react-markdown` emits bare elements with no class hooks, so styling them via a
