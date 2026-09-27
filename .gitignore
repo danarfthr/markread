@@ -15,8 +15,7 @@
 # them and is tracked, so an install is reproducible without vendoring 432K.
 /.agents/
 
-# local agent/design docs (kept on disk, not published)
-/AGENTS.md
+# local design doc (kept on disk, not published)
 /DESIGN.md
 
 # testing
