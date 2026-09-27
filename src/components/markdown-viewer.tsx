@@ -84,7 +84,7 @@ export function MarkdownViewer() {
       setSource(await file.text());
       setError(null);
     } catch {
-      setError("That file could not be read.");
+      setError("Your browser could not read that file.");
     }
   }, []);
 
@@ -138,7 +138,7 @@ export function MarkdownViewer() {
           <div className="flex flex-wrap items-center gap-4">
             <SectionLabel>Viewer</SectionLabel>
             <p className="text-label text-mercury">
-              {wordCount.toLocaleString()} words
+              {wordCount.toLocaleString()} {wordCount === 1 ? "word" : "words"}
             </p>
           </div>
 

@@ -16,7 +16,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Markread",
-  description: "A quiet, monochrome viewer for Markdown documents.",
+  description:
+    "Paste or drop Markdown and read the rendered result. Everything runs in your browser; nothing is uploaded.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -15,7 +15,7 @@ export default function Home() {
           </h1>
           <p className="mt-6 max-w-xl text-body text-carbon-warm">
             A single page that renders Markdown as you paste it. Everything runs
-            in your browser — no upload, no account, no server.
+            in your browser: no upload, no account, no server.
           </p>
         </header>
 
@@ -25,20 +25,20 @@ export default function Home() {
           id="format"
           className="mx-auto w-full max-w-page scroll-mt-32 px-6 pt-12 pb-24"
         >
-          <SectionLabel>Format</SectionLabel>
+          <SectionLabel>Input and syntax</SectionLabel>
           <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
             {[
               {
                 title: "Paste",
-                body: "Drop text straight into the source pane and the preview updates as you type.",
+                body: "Paste into the Source pane and the preview updates as you type.",
               },
               {
                 title: "Drop a file",
-                body: "Drag a .md, .markdown or .mdx file anywhere onto the page to load it.",
+                body: "Drag a .md, .markdown, or .mdx file onto either pane to load it.",
               },
               {
                 title: "GitHub flavored",
-                body: "Tables, task lists, strikethrough and fenced code are all supported.",
+                body: "It renders tables, task lists, strikethrough, and fenced code.",
               },
             ].map((item) => (
               <div
@@ -76,8 +76,8 @@ export default function Home() {
           </h2>
 
           <p className="mt-8 max-w-xl text-body text-mercury">
-            Close the tab and the document is gone. There is no upload, no
-            account, and no server behind this page.
+            Close the tab and the document is gone. No upload, no account, no
+            server.
           </p>
 
           {/* border-carbon-warm is the dark-surface hairline; mercury text

@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Markread
 
-## Getting Started
+Markread renders Markdown as you paste it, and it runs entirely in your browser. There is no backend, no database, and no upload: your document never leaves the tab.
 
-First, run the development server:
+## Requirements
+
+- **Node.js**: 20.9.0 or later. Next.js 16 requires it.
+- **pnpm**: the repository pins 12.5.1 in `package.json` and commits `pnpm-lock.yaml`, so use pnpm rather than npm or yarn.
+
+## Getting started
+
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Commands
 
-To learn more about Next.js, take a look at the following resources:
+| Command | What it does |
+|---|---|
+| `pnpm dev` | Starts the development server on port 3000 |
+| `pnpm lint` | Runs ESLint with the flat config |
+| `pnpm build` | Builds for production, typechecks, and regenerates route types |
+| `pnpm start` | Serves the production build |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project has no test suite, so verify changes with `pnpm lint && pnpm build`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How it works
 
-## Deploy on Vercel
+- `src/app/page.tsx` composes the page: navigation, hero, viewer, and footer. It is a Server Component.
+- `src/components/markdown-viewer.tsx` owns paste and drop state and renders the preview. It is a Client Component, because it needs `useState` and drag events.
+- `src/lib/sample-markdown.ts` holds the document that loads on first visit.
+- `src/app/globals.css` defines the Tailwind v4 design tokens and styles the rendered Markdown through a scoped `.markdown-body` layer.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The preview is memoized on purpose. `react-markdown` re-parses the whole document on every render, so the component, the plugin array, and `useDeferredValue` work together to keep typing responsive. `AGENTS.md` records the measurements and the reasoning.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Dropped and selected files load through the File API and cap at 5 MB.
+
+## Deploy
+
+Vercel detects Next.js and needs no configuration. The page is fully static, so leave `output: 'export'` out of `next.config.ts`.
+
+See the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for other targets.

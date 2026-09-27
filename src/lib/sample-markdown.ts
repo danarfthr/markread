@@ -1,14 +1,14 @@
-export const SAMPLE_MARKDOWN = `# Markdown Viewer
+export const SAMPLE_MARKDOWN = `# Markdown viewer
 
-Paste Markdown on the left, or drop a \`.md\` file onto the editor. Everything
-renders locally in your browser — nothing is uploaded.
+Paste Markdown into the Source pane, or drop a \`.md\` file onto either pane.
+Everything renders locally in your browser: nothing is uploaded.
 
 ## Formatting
 
 Text can be **emphasized**, *italicized*, ~~struck through~~, or \`inline code\`.
-Links look like [this one](https://example.com).
+Links look like [example.com](https://example.com).
 
-> Blockquotes sit on a single hairline rule.
+> Blockquotes render with a hairline rule.
 
 ## Lists
 
@@ -45,7 +45,7 @@ export function render({ source }: Viewer) {
 
 ---
 
-Images pick up the signature 80px radius:
+Images render with the 80px radius:
 
 ![Placeholder](https://placehold.co/1200x400/f0efe9/322d2a?text=Markread)
 `;
