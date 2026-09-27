@@ -88,10 +88,40 @@
   --font-sans: var(--font-t1-sans);
 }
 
+/*
+ * Fluid display size for large headlines.
+ *
+ * `text-display` is a fixed 52px, which is a desktop measurement. This clamps
+ * down linearly on narrow viewports and lands at exactly 52px from 768px up, so
+ * the reference value is preserved wherever it was actually measured.
+ *
+ * Must be a top-level `@utility` (not a class inside `@layer components`) to be
+ * usable alongside Tailwind's own utilities.
+ *
+ * Line-height and tracking are read from the `--text-display--*` sub-tokens so
+ * the mandated line-height of exactly 1.0 still applies — this utility bypasses
+ * the `text-display` class entirely. Note it does NOT set font-weight: the
+ * `--text-display--font-weight` sub-token only applies via the `text-display`
+ * utility, so callers must pass `font-light` explicitly.
+ */
+@utility text-display-fluid {
+  font-size: clamp(2rem, 6.8vw, var(--text-display));
+  line-height: var(--text-display--line-height);
+  letter-spacing: var(--text-display--letter-spacing);
+}
+
 @layer base {
   html {
     background-color: var(--color-vellum);
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  /* Smooth scrolling is a motion effect, so honor the OS setting. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {

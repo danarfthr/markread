@@ -22,7 +22,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      {/*
+       * id="top" is the footer's "Back to top" target. It lives on <body>
+       * because that is the true top of the document — nothing sits above it,
+       * so the link lands at scroll 0 with no scroll-mt offset needed.
+       */}
+      <body id="top" className="min-h-full flex flex-col">
+        {children}
+      </body>
     </html>
   );
 }

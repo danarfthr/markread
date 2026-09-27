@@ -58,6 +58,19 @@ export function SiteNav() {
             <span aria-hidden className="block size-1 shrink-0 bg-paper-white" />
             Markread
           </span>
+          {/*
+           * Hairline between the wordmark and the links. Paper White at 40%
+           * rather than Carbon Warm: the pill surface is already carbon, so a
+           * carbon rule would be invisible. 40% lands at ~3.5:1 against the
+           * pill — visible as a separator without reading as a hard border.
+           *
+           * A direct child of <nav>, so the existing gap-2 / sm:gap-6 spaces it
+           * symmetrically on both sides with no extra margin.
+           */}
+          <span
+            aria-hidden
+            className="block h-4 w-px shrink-0 bg-paper-white/40"
+          />
           <ul className="flex items-center gap-1 sm:gap-4">
             {LINKS.map((link) => {
               const isActive = active === link.href;

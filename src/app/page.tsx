@@ -57,23 +57,50 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="w-full bg-onyx-depth px-6 pt-12 pb-[30px]">
-        <div className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-4">
-          <p className="text-body-sm text-paper-white">Markread</p>
-          <p className="text-body-sm text-paper-white">
-            Rendered locally. Nothing leaves your browser.
+      {/*
+       * The footer is the page's terminator, so it carries display-scale type
+       * rather than a single row of small print. Structure follows the
+       * reference site's contact section: label, display headline, body copy,
+       * then a hairline-separated bottom bar.
+       *
+       * DESIGN.md's footer constraints are preserved — Onyx Depth surface, 30px
+       * bottom padding, 14px text in the bottom bar. Only the top padding grows
+       * (48px -> 80/112px) to give the display headline room to breathe.
+       */}
+      <footer className="w-full bg-onyx-depth px-6 pt-20 pb-[30px] md:pt-28">
+        <div className="mx-auto w-full max-w-page">
+          <SectionLabel tone="light">Markread</SectionLabel>
+
+          <h2 className="mt-8 max-w-3xl text-display-fluid font-light text-paper-white">
+            Nothing leaves your browser.
+          </h2>
+
+          <p className="mt-8 max-w-xl text-body text-mercury">
+            Close the tab and the document is gone. There is no upload, no
+            account, and no server behind this page.
           </p>
-          <p className="text-body-sm text-paper-white">
-            Made by{" "}
+
+          {/* border-carbon-warm is the dark-surface hairline; mercury text
+              clears AA contrast on onyx at 5.6:1. */}
+          <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-carbon-warm pt-6">
+            <p className="text-body-sm text-mercury">
+              Made by{" "}
+              <a
+                href="https://danar.app"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="underline underline-offset-4 transition-colors hover:text-paper-white"
+              >
+                danar.app
+              </a>
+            </p>
             <a
-              href="https://danar.app"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="underline underline-offset-4"
+              href="#top"
+              className="text-body-sm text-mercury transition-colors hover:text-paper-white"
             >
-              danar.app
+              Back to top
             </a>
-          </p>
+          </div>
         </div>
       </footer>
     </>
